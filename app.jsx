@@ -48,13 +48,14 @@ function Nav() {
           <div className="brand-mark">F</div>
           <span>FRTV</span>
         </div>
-        <div className="nav-links">
+        <div className="nav-links" style={{gap: 20}}>
           <a href="#accueil" className="active">Accueil</a>
           <a href="#chaines">Chaînes</a>
-          <a href="#sport">Sport en direct</a>
+          <a href="tv.html">Smart TV</a>
+          <a href="phone.html">Mobile</a>
+          <a href="box.html">Android Box</a>
           <a href="#tarifs">Tarifs</a>
           <a href="#faq">FAQ</a>
-          <a href="#contact">Contact</a>
         </div>
         <div className="nav-cta">
           <a href="#tarifs" className="btn btn-ghost btn-sm">Connexion</a>
@@ -478,8 +479,9 @@ function Footer() {
             <ul>
               <li><a href="#chaines">Chaînes</a></li>
               <li><a href="#tarifs">Tarifs</a></li>
-              <li><a href="#">Compatibilité</a></li>
-              <li><a href="#">Essai gratuit</a></li>
+              <li><a href="tv.html">Smart TV</a></li>
+              <li><a href="phone.html">Mobile</a></li>
+              <li><a href="box.html">Android Box</a></li>
             </ul>
           </div>
           <div>
