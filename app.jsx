@@ -513,82 +513,6 @@ function Footer() {
 
 }
 
-// === LIVE PANEL ===
-function LivePanel() {
-  const [collapsed, setCollapsed] = useState(false);
-  const [matches, setMatches] = useState([
-  { league: 'Ligue 1', home: { name: 'PSG', flag: 'PSG' }, away: { name: 'OM', flag: 'OM' }, home_s: 2, away_s: 1, status: 'live', min: "72'" },
-  { league: 'Champions League', home: { name: 'Real Madrid', flag: 'RMA' }, away: { name: 'Man City', flag: 'MCI' }, home_s: 3, away_s: 2, status: 'live', min: "84'" },
-  { league: 'Premier League', home: { name: 'Arsenal', flag: 'ARS' }, away: { name: 'Liverpool', flag: 'LIV' }, home_s: 1, away_s: 1, status: 'live', min: "58'" },
-  { league: 'Serie A', home: { name: 'Inter', flag: 'INT' }, away: { name: 'Milan', flag: 'MIL' }, home_s: 0, away_s: 0, status: 'live', min: "31'" },
-  { league: 'Ligue 1', home: { name: 'Lyon', flag: 'OL' }, away: { name: 'Monaco', flag: 'ASM' }, home_s: null, away_s: null, status: 'upcoming', min: '21h00' },
-  { league: 'La Liga', home: { name: 'Barça', flag: 'BAR' }, away: { name: 'Atlético', flag: 'ATM' }, home_s: 2, away_s: 0, status: 'ft', min: 'Terminé' }]
-  );
-
-  // Simulate live ticking — random goal every ~12s on a live match
-  useEffect(() => {
-    const t = setInterval(() => {
-      setMatches((prev) => {
-        const liveIdxs = prev.map((m, i) => m.status === 'live' ? i : -1).filter((i) => i >= 0);
-        if (!liveIdxs.length) return prev;
-        const i = liveIdxs[Math.floor(Math.random() * liveIdxs.length)];
-        const next = [...prev];
-        const m = { ...next[i] };
-        if (Math.random() < 0.35) {
-          // increment a score
-          if (Math.random() < 0.5) m.home_s += 1;else m.away_s += 1;
-        }
-        // tick clock
-        const cur = parseInt(m.min) || 0;
-        m.min = `${Math.min(90, cur + 1)}'`;
-        next[i] = m;
-        return next;
-      });
-    }, 4500);
-    return () => clearInterval(t);
-  }, []);
-
-  return (
-    <div className={`live-panel ${collapsed ? 'collapsed' : ''}`}>
-      <div className="lp-head" onClick={() => setCollapsed(!collapsed)}>
-        <div className="lp-title">
-          <span className="dot"></span>
-          MATCHS DU JOUR · <span style={{ color: 'var(--cyan)' }}>{matches.filter((m) => m.status === 'live').length} en direct</span>
-        </div>
-        <span className="lp-toggle">▾</span>
-      </div>
-      <div className="lp-body">
-        {matches.map((m, i) =>
-        <div key={i} className="lp-match">
-            <div className="lp-match-head">
-              <span className="lp-league">{m.league}</span>
-              <span className={`lp-status ${m.status}`}>
-                {m.status === 'live' && <>● {m.min}</>}
-                {m.status === 'upcoming' && <>{m.min}</>}
-                {m.status === 'ft' && <>FT</>}
-              </span>
-            </div>
-            <div className="lp-row">
-              <div className="lp-team">
-                <div className="lp-flag">{m.home.flag}</div>
-                <span className="lp-name">{m.home.name}</span>
-              </div>
-              <span className={`lp-score ${m.home_s == null ? 'dim' : ''}`}>{m.home_s == null ? '—' : m.home_s}</span>
-            </div>
-            <div className="lp-row">
-              <div className="lp-team">
-                <div className="lp-flag">{m.away.flag}</div>
-                <span className="lp-name">{m.away.name}</span>
-              </div>
-              <span className={`lp-score ${m.away_s == null ? 'dim' : ''}`}>{m.away_s == null ? '—' : m.away_s}</span>
-            </div>
-          </div>
-        )}
-      </div>
-      <div className="lp-foot">Voir tous les matchs <Icon name="arrow" size={12} /></div>
-    </div>);
-
-}
 
 // === WHATSAPP FAB ===
 function WhatsAppFab() {
@@ -642,7 +566,6 @@ function App() {
         <CTABanner />
         <Footer />
       </div>
-      <LivePanel />
       <WhatsAppFab />
       <FRTVTweaks />
     </>);
