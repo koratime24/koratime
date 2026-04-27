@@ -434,7 +434,7 @@ function Footer() {
             </div>
             <p>Service IPTV premium pour la France. Sport, films et séries en HD, FHD et 4K — sur tous vos appareils.</p>
             <div style={{ display: 'flex', gap: 10, marginTop: 18 }}>
-              <a href="#" className="btn btn-ghost btn-sm" style={{ padding: 8, width: 36, height: 36 }}><Icon name="wa" size={16} /></a>
+              <a href="https://wa.me/212778890405" target="_blank" rel="noopener noreferrer" className="btn btn-ghost btn-sm" style={{ padding: 8, width: 36, height: 36 }}><Icon name="wa" size={16} /></a>
               <a href="#" className="btn btn-ghost btn-sm" style={{ padding: 8, width: 36, height: 36 }}><Icon name="globe" size={16} /></a>
             </div>
           </div>
@@ -454,7 +454,7 @@ function Footer() {
               <li><a href="#faq">FAQ</a></li>
               <li><a href="#">Installation</a></li>
               <li><a href="#">Contact</a></li>
-              <li><a href="#">WhatsApp</a></li>
+              <li><a href="https://wa.me/212778890405" target="_blank" rel="noopener noreferrer">WhatsApp</a></li>
             </ul>
           </div>
           <div>
@@ -483,9 +483,9 @@ function Footer() {
 // === WHATSAPP FAB ===
 function WhatsAppFab() {
   return (
-    <button className="wa-fab" title="Contactez-nous sur WhatsApp">
+    <a href="https://wa.me/212778890405" className="wa-fab" title="Contactez-nous sur WhatsApp" target="_blank" rel="noopener noreferrer" onClick={(e)=>{e.preventDefault();window.open("https://wa.me/212778890405","_blank");}}>
       <Icon name="wa" size={26} />
-    </button>);
+    </a>);
 
 }
 
