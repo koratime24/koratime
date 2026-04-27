@@ -434,7 +434,7 @@ function Footer() {
             </div>
             <p>Service IPTV premium pour la France. Sport, films et séries en HD, FHD et 4K — sur tous vos appareils.</p>
             <div style={{ display: 'flex', gap: 10, marginTop: 18 }}>
-              <a href="#" className="btn btn-ghost btn-sm" style={{ padding: 8, width: 36, height: 36 }}><Icon name="wa" size={16} /></a>
+              <a href="https://wa.me/212778890405" target="_blank" rel="noopener noreferrer" className="btn btn-ghost btn-sm" style={{ padding: 8, width: 36, height: 36 }}><Icon name="wa" size={16} /></a>
               <a href="#" className="btn btn-ghost btn-sm" style={{ padding: 8, width: 36, height: 36 }}><Icon name="globe" size={16} /></a>
             </div>
           </div>

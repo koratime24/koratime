@@ -661,6 +661,7 @@ section { position: relative; padding: 80px 0; }
   box-shadow: 0 10px 30px rgba(37, 211, 102, 0.45);
   cursor: pointer; z-index: 41;
   border: none;
+  text-decoration: none;
   transition: transform .2s;
 }
 .wa-fab:hover { transform: scale(1.08); }
