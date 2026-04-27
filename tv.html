@@ -316,7 +316,7 @@ function Footer() {
 
 function WhatsAppFab() {
   return (
-    <a href="https://wa.me/212778890405" className="wa-fab" title="Contactez-nous sur WhatsApp" target="_blank" rel="noopener noreferrer">
+    <a href="https://wa.me/212778890405" className="wa-fab" title="Contactez-nous sur WhatsApp" target="_blank" rel="noopener noreferrer" onClick={(e)=>{e.preventDefault();window.open("https://wa.me/212778890405","_blank");}}>
       <Icon name="wa" size={26}/>
     </a>
   );
