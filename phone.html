@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>FRTV Mobile — IPTV sur iPhone et Android</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="styles.css"/>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<style>
+.pricing-4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;align-items:start}
+.feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:40px}
+.feat-card{padding:28px 24px;border-radius:16px;background:linear-gradient(160deg,rgba(13,21,48,.6),rgba(7,13,28,.4));border:1px solid var(--line);display:flex;flex-direction:column;gap:14px;transition:border-color .2s,transform .2s}
+.feat-card:hover{border-color:var(--line-2);transform:translateY(-2px)}
+.feat-icon{width:44px;height:44px;border-radius:12px;background:rgba(34,211,238,.1);display:grid;place-items:center;color:var(--cyan);flex-shrink:0}
+.feat-title{font-size:15px;font-weight:700;color:var(--ink)}
+.feat-desc{font-size:13px;color:var(--ink-dim);line-height:1.6}
+.dev-hero-grid{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center;padding:80px 0 40px}
+@media(max-width:1024px){.pricing-4{grid-template-columns:repeat(2,1fr)}.feat-grid{grid-template-columns:repeat(2,1fr)}.dev-hero-grid{grid-template-columns:1fr;gap:40px}}
+@media(max-width:640px){.pricing-4{grid-template-columns:1fr}.feat-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+const { useState, useEffect } = React;
+
+const Icon = ({ name, size = 20 }) => {
+  const s = size;
+  const p = { width:s, height:s, viewBox:"0 0 24 24", fill:"none", stroke:"currentColor", strokeWidth:1.8, strokeLinecap:"round", strokeLinejoin:"round" };
+  switch(name) {
+    case 'check': return <svg {...p}><polyline points="4 12 10 18 20 6"/></svg>;
+    case 'arrow': return <svg {...p}><line x1="5" y1="12" x2="19" y2="12"/><polyline points="13 6 19 12 13 18"/></svg>;
+    case 'phone': return <svg {...p}><rect x="6" y="2" width="12" height="20" rx="2.5"/><line x1="11" y1="18" x2="13" y2="18"/></svg>;
+    case 'tv': return <svg {...p}><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="8" y1="22" x2="16" y2="22"/><line x1="12" y1="19" x2="12" y2="22"/></svg>;
+    case 'bolt': return <svg {...p}><polygon points="13 2 4 14 11 14 10 22 20 10 13 10 13 2" fill="currentColor" stroke="none"/></svg>;
+    case 'shield': return <svg {...p}><path d="M12 3l8 3v6c0 5-3.5 8.5-8 9-4.5-.5-8-4-8-9V6l8-3z"/><polyline points="9 12 11 14 15 10"/></svg>;
+    case 'globe': return <svg {...p}><circle cx="12" cy="12" r="9"/><line x1="3" y1="12" x2="21" y2="12"/><path d="M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg>;
+    case 'support': return <svg {...p}><circle cx="12" cy="12" r="9"/><path d="M9 9a3 3 0 0 1 6 0c0 1.5-1 2-2 2.5s-1 1.5-1 2"/><line x1="12" y1="17" x2="12" y2="17.5"/></svg>;
+    case 'cast': return <svg {...p}><path d="M3 9V6a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-9"/><path d="M3 13a6 6 0 0 1 6 6"/><path d="M3 17a2 2 0 0 1 2 2"/></svg>;
+    case 'tablet': return <svg {...p}><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="11" y1="18" x2="13" y2="18"/></svg>;
+    case 'plus': return <svg {...p}><line x1="5" y1="12" x2="19" y2="12"/><line x1="12" y1="5" x2="12" y2="19"/></svg>;
+    case 'star': return <svg width={s} height={s} viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15 9 22 9.5 17 14.5 18.5 22 12 18 5.5 22 7 14.5 2 9.5 9 9 12 2"/></svg>;
+    case 'wa': return <svg width={s} height={s} viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.1-1.7-.8-2-.9-.3-.1-.5-.2-.7.1-.2.3-.8.9-.9 1.1-.2.2-.3.2-.6.1-.3-.2-1.2-.4-2.3-1.4-.9-.8-1.4-1.7-1.6-2-.2-.3 0-.5.1-.6.1-.1.3-.3.4-.5.1-.2.2-.3.3-.5.1-.2 0-.4 0-.5-.1-.1-.7-1.6-.9-2.2-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.7.4-.2.3-.9.9-.9 2.2 0 1.3.9 2.6 1.1 2.7.1.2 1.8 2.7 4.3 3.8.6.3 1.1.4 1.4.5.6.2 1.2.2 1.6.1.5-.1 1.7-.7 1.9-1.3.2-.7.2-1.2.2-1.3-.1-.2-.3-.2-.6-.4zM12 2C6.5 2 2 6.5 2 12c0 1.8.5 3.5 1.3 4.9L2 22l5.3-1.4c1.4.7 3 1.2 4.7 1.2 5.5 0 10-4.5 10-10S17.5 2 12 2zm0 18c-1.5 0-3-.4-4.3-1.1l-.3-.2-3.1.8.8-3-.2-.3C4.3 14.9 4 13.5 4 12c0-4.4 3.6-8 8-8s8 3.6 8 8-3.6 8-8 8z"/></svg>;
+    default: return null;
+  }
+};
+
+function Nav() {
+  const [scrolled, setScrolled] = useState(false);
+  useEffect(() => {
+    const fn = () => setScrolled(window.scrollY > 8);
+    window.addEventListener('scroll', fn);
+    return () => window.removeEventListener('scroll', fn);
+  }, []);
+  return (
+    <nav className="nav" style={scrolled ? {boxShadow:'0 8px 30px rgba(0,0,0,0.4)'} : {}}>
+      <div className="container nav-inner">
+        <a href="frtv.html" className="brand" style={{textDecoration:'none'}}>
+          <div className="brand-mark">F</div>
+          <span>FRTV</span>
+        </a>
+        <div className="nav-links" style={{gap:20}}>
+          <a href="frtv.html">Accueil</a>
+          <a href="#tarifs">Tarifs</a>
+          <a href="#faq">FAQ</a>
+          <a href="tv.html">Smart TV</a>
+          <a href="phone.html" className="active">Mobile</a>
+          <a href="box.html">Android Box</a>
+        </div>
+        <div className="nav-cta">
+          <a href="frtv.html#tarifs" className="btn btn-ghost btn-sm">Connexion</a>
+          <a href="#tarifs" className="btn btn-primary btn-sm">Essai gratuit</a>
+        </div>
+      </div>
+    </nav>
+  );
+}
+
+function PhoneVisual() {
+  return (
+    <div style={{position:'relative',display:'flex',justifyContent:'center'}}>
+      <div style={{position:'absolute',top:'40%',left:'50%',transform:'translate(-50%,-50%)',width:200,height:300,background:'radial-gradient(ellipse,rgba(34,211,238,0.18) 0%,transparent 70%)',pointerEvents:'none'}}/>
+      <div style={{width:220,background:'linear-gradient(180deg,#0d1530,#070d1c)',borderRadius:36,border:'2px solid rgba(120,160,255,0.25)',padding:'16px 10px',boxShadow:'0 0 40px rgba(34,211,238,0.12),0 24px 60px rgba(0,0,0,0.5)'}}>
+        <div style={{width:80,height:18,background:'#05080f',borderRadius:12,margin:'0 auto 12px',display:'flex',alignItems:'center',justifyContent:'center'}}>
+          <div style={{width:8,height:8,borderRadius:'50%',background:'#1a2340',border:'1px solid rgba(120,160,255,0.2)'}}/>
+        </div>
+        <div style={{background:'#05080f',borderRadius:20,overflow:'hidden',padding:10}}>
+          <div style={{display:'flex',justifyContent:'space-between',marginBottom:8,padding:'0 4px'}}>
+            <span style={{fontSize:9,color:'#5b6890',fontWeight:600}}>FRTV</span>
+            <div style={{display:'flex',alignItems:'center',gap:4}}>
+              <div style={{width:6,height:6,borderRadius:'50%',background:'#ef4444'}}/>
+              <span style={{fontSize:9,color:'#5b6890'}}>EN DIRECT</span>
+            </div>
+          </div>
+          <div style={{aspectRatio:'16/9',borderRadius:10,background:'linear-gradient(135deg,#0a3d1a,#0a1330)',position:'relative',display:'grid',placeItems:'center',marginBottom:8,border:'1px solid rgba(255,255,255,0.06)'}}>
+            <span style={{fontSize:12,color:'rgba(255,255,255,0.8)',fontWeight:700}}>PSG · OM</span>
+            <span style={{position:'absolute',top:6,left:6,fontSize:8,padding:'1px 5px',background:'#ef4444',borderRadius:3,color:'white',fontWeight:700}}>LIVE</span>
+            <span style={{position:'absolute',bottom:6,right:6,fontSize:11,color:'white',fontWeight:800}}>2 - 1</span>
+            <span style={{position:'absolute',bottom:6,left:6,fontSize:8,color:'rgba(255,255,255,0.6)'}}>72'</span>
+          </div>
+          <div style={{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:5}}>
+            {[180,210,240,270,300,330].map((hue,i) => (
+              <div key={i} style={{aspectRatio:'16/10',borderRadius:6,background:`linear-gradient(135deg,hsl(${hue} 50% 25%),hsl(${hue+30} 50% 15%))`}}/>
+            ))}
+          </div>
+        </div>
+        <div style={{width:60,height:4,background:'rgba(120,160,255,0.2)',borderRadius:2,margin:'10px auto 0'}}/>
+      </div>
+    </div>
+  );
+}
+
+function Hero() {
+  return (
+    <section id="accueil" className="hero">
+      <div className="container dev-hero-grid">
+        <div>
+          <span className="eyebrow"><span className="pulse"></span>IPTV Premium · Mobile</span>
+          <h1 className="hero-title">FRTV dans <span className="highlight">votre poche</span></h1>
+          <p className="hero-sub">iPhone, Samsung, Xiaomi — regardez vos chaînes préférées partout en France et à l&apos;étranger. En WiFi, 4G ou 5G, sans coupure.</p>
+          <div className="hero-ctas">
+            <a href="#tarifs" className="btn btn-primary btn-lg"><Icon name="bolt" size={16}/> Voir les offres</a>
+            <a href="#features" className="btn btn-ghost btn-lg"><Icon name="phone" size={14}/> Compatibilité</a>
+          </div>
+          <div className="hero-trust">
+            <span className="stars"><Icon name="star" size={14}/><Icon name="star" size={14}/><Icon name="star" size={14}/><Icon name="star" size={14}/><Icon name="star" size={14}/></span>
+            <span><b style={{color:'var(--ink)'}}>4,9/5</b> · 12 480 avis vérifiés</span>
+          </div>
+        </div>
+        <PhoneVisual/>
+      </div>
+    </section>
+  );
+}
+
+function Features() {
+  const feats = [
+    {icon:'phone', title:'iOS 13+ & Android 8+', desc:'Compatible avec tous les iPhone et smartphones Android récents. Application légère et interface intuitive.'},
+    {icon:'cast', title:'GSE IPTV & Smarters', desc:'Les meilleures applications IPTV pour mobile, disponibles sur l\'App Store et Google Play. Configuration en 2 minutes.'},
+    {icon:'tablet', title:'Portrait & Paysage', desc:'Interface adaptée automatiquement à l\'orientation de votre téléphone. Regardez comme vous voulez.'},
+    {icon:'tv', title:'AirPlay & Chromecast', desc:'Envoyez le flux directement sur votre TV depuis votre iPhone ou Android en un seul tap.'},
+    {icon:'bolt', title:'Qualité adaptative', desc:'Qualité vidéo ajustée automatiquement selon votre connexion — 3G, 4G, 5G ou WiFi. Aucune coupure.'},
+    {icon:'globe', title:'Fonctionne à l\'étranger', desc:'FRTV fonctionne depuis n\'importe quel pays. VPN friendly. Accédez aux chaînes françaises où que vous soyez.'},
+  ];
+  return (
+    <section id="features" className="container">
+      <div className="section-head">
+        <span className="eyebrow">Partout, tout le temps</span>
+        <h2>FRTV sur iOS et Android.</h2>
+        <p>iPhone, Samsung, Xiaomi, Huawei — si vous avez un smartphone, FRTV fonctionne.</p>
+      </div>
+      <div className="feat-grid">
+        {feats.map((f,i) => (
+          <div key={i} className="feat-card">
+            <div className="feat-icon"><Icon name={f.icon} size={22}/></div>
+            <div className="feat-title">{f.title}</div>
+            <div className="feat-desc">{f.desc}</div>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function Pricing() {
+  const plans = [
+    {name:'1 mois', price:'9', monthly:null, features:['+20 000 chaînes Live','+80 000 films & séries','HD / FHD / 4K','1 appareil simultané','Support 24/7'], featured:false, save:null},
+    {name:'3 mois', price:'24', monthly:'8,00', features:['+20 000 chaînes Live','+80 000 films & séries','HD / FHD / 4K','2 appareils simultanés','Support prioritaire 24/7','Anti-coupure premium'], featured:true, save:'11%'},
+    {name:'6 mois', price:'44', monthly:'7,33', features:['+20 000 chaînes Live','+80 000 films & séries','HD / FHD / 4K','2 appareils simultanés','Support prioritaire 24/7','Anti-coupure premium','EPG 7 jours'], featured:false, save:'19%'},
+    {name:'1 an', price:'79', monthly:'6,58', features:['+20 000 chaînes Live','+80 000 films & séries','HD / FHD / 4K','3 appareils simultanés','Support VIP dédié','Anti-coupure premium','Replay 7 jours','EPG 7 jours'], featured:false, save:'27%'},
+  ];
+  return (
+    <section id="tarifs" className="container">
+      <div className="section-head">
+        <span className="eyebrow">Tarifs transparents</span>
+        <h2>Choisissez votre formule.</h2>
+        <p>Sans engagement. Paiement sécurisé. Activation immédiate par email.</p>
+      </div>
+      <div className="pricing-4">
+        {plans.map((p,i) => (
+          <div key={i} className={`plan ${p.featured ? 'featured' : ''}`}>
+            {p.featured && <div className="plan-tag">Meilleure offre</div>}
+            <div>
+              <div className="plan-name">{p.name}</div>
+              {p.save && <div style={{display:'inline-block',marginTop:8,padding:'3px 10px',borderRadius:999,background:'rgba(34,197,94,0.12)',color:'var(--green)',fontSize:11,fontWeight:700}}>Économisez {p.save}</div>}
+            </div>
+            <div className="plan-price"><span className="amount">{p.price} €</span></div>
+            <div className="plan-monthly">{p.monthly ? <>soit <b>{p.monthly} €</b> / mois</> : 'par mois'}</div>
+            <ul>{p.features.map((f,j) => <li key={j}><Icon name="check" size={16}/> {f}</li>)}</ul>
+            <button className={`btn ${p.featured ? 'btn-primary' : 'btn-ghost'} btn-lg`}>Acheter maintenant <Icon name="arrow" size={14}/></button>
+          </div>
+        ))}
+      </div>
+      <div style={{textAlign:'center',marginTop:28,color:'var(--ink-mute)',fontSize:13,display:'flex',gap:24,justifyContent:'center',flexWrap:'wrap'}}>
+        <span><Icon name="shield" size={14}/> Paiement 100% sécurisé</span>
+        <span><Icon name="bolt" size={14}/> Activation en 60 secondes</span>
+        <span><Icon name="support" size={14}/> Support en français 24/7</span>
+        <span><Icon name="globe" size={14}/> Garantie satisfait ou remboursé 7 jours</span>
+      </div>
+    </section>
+  );
+}
+
+function FAQ() {
+  const items = [
+    {q:'L\'application FRTV fonctionne-t-elle sur iPhone ?', a:'Oui. FRTV est compatible avec tous les iPhone sous iOS 13 ou version supérieure. Téléchargez GSE Smart IPTV ou IPTV Smarters depuis l\'App Store et entrez vos identifiants.'},
+    {q:'Puis-je regarder en 4G ou 5G ?', a:'Oui. FRTV s\'adapte automatiquement à votre connexion. En 4G ou 5G vous profitez de la qualité HD/FHD. En WiFi, la 4K est disponible sur les contenus compatibles.'},
+    {q:'Comment installer sur Android ?', a:'Téléchargez IPTV Smarters Pro depuis le Google Play Store. Sélectionnez "Xtream Codes" et entrez vos identifiants FRTV envoyés par email. Terminé en 2 minutes.'},
+    {q:'FRTV fonctionne-t-il à l\'étranger ?', a:'Oui. Vous pouvez accéder à FRTV depuis n\'importe quel pays. Le service est compatible VPN. Les chaînes françaises restent accessibles partout dans le monde.'},
+  ];
+  const [open, setOpen] = useState(0);
+  return (
+    <section id="faq" className="container">
+      <div className="section-head">
+        <span className="eyebrow">Questions fréquentes</span>
+        <h2>Mobile — tout ce qu&apos;il faut savoir.</h2>
+      </div>
+      <div className="faq">
+        {items.map((it,i) => (
+          <div key={i} className={`faq-item ${open === i ? 'open' : ''}`}>
+            <div className="faq-q" onClick={() => setOpen(open === i ? -1 : i)}>
+              <span>{it.q}</span>
+              <span className="plus"><Icon name="plus" size={20}/></span>
+            </div>
+            <div className="faq-a">{it.a}</div>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function CTABanner() {
+  return (
+    <section className="container">
+      <div className="cta-banner">
+        <div>
+          <h3>Prêt à regarder sur votre mobile ?</h3>
+          <p>Activez votre abonnement en moins de 2 minutes. Sans engagement, annulable à tout moment.</p>
+        </div>
+        <a href="#tarifs" className="btn btn-primary btn-lg"><Icon name="bolt" size={16}/> Démarrer maintenant</a>
+      </div>
+    </section>
+  );
+}
+
+function Footer() {
+  return (
+    <footer id="contact" className="footer">
+      <div className="container">
+        <div className="footer-grid">
+          <div className="footer-brand">
+            <a href="frtv.html" className="brand" style={{textDecoration:'none'}}>
+              <div className="brand-mark">F</div>
+              <span>FRTV</span>
+            </a>
+            <p>Service IPTV premium pour la France. Sport, films et séries en HD, FHD et 4K — sur tous vos appareils.</p>
+          </div>
+          <div>
+            <h4>Appareils</h4>
+            <ul>
+              <li><a href="tv.html">Smart TV</a></li>
+              <li><a href="phone.html">Mobile</a></li>
+              <li><a href="box.html">Android Box</a></li>
+              <li><a href="frtv.html">Accueil FRTV</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4>Support</h4>
+            <ul>
+              <li><a href="#faq">FAQ</a></li>
+              <li><a href="#">Installation</a></li>
+              <li><a href="#">Contact</a></li>
+              <li><a href="#">WhatsApp</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4>Légal</h4>
+            <ul>
+              <li><a href="#">CGV</a></li>
+              <li><a href="#">Confidentialité</a></li>
+              <li><a href="#">Mentions légales</a></li>
+              <li><a href="#">Remboursement</a></li>
+            </ul>
+          </div>
+        </div>
+        <div className="footer-bottom">
+          <span>© 2026 FRTV — Tous droits réservés.</span>
+          <div className="legal">
+            <span>Paiement sécurisé · SSL 256-bit</span>
+            <span>🇫🇷 Service en français</span>
+          </div>
+        </div>
+      </div>
+    </footer>
+  );
+}
+
+function WhatsAppFab() {
+  return (
+    <button className="wa-fab" title="Contactez-nous sur WhatsApp">
+      <Icon name="wa" size={26}/>
+    </button>
+  );
+}
+
+function App() {
+  return (
+    <>
+      <div className="bg-shell"><div className="bg-grid"></div><div className="bg-grain"></div></div>
+      <div className="page">
+        <Nav/>
+        <Hero/>
+        <Features/>
+        <Pricing/>
+        <FAQ/>
+        <CTABanner/>
+        <Footer/>
+      </div>
+      <WhatsAppFab/>
+    </>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
+</body>
+</html>
