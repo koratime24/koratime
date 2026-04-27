@@ -483,9 +483,9 @@ function Footer() {
 // === WHATSAPP FAB ===
 function WhatsAppFab() {
   return (
-    <button className="wa-fab" title="Contactez-nous sur WhatsApp">
+    <a href="https://wa.me/212778890405" className="wa-fab" title="Contactez-nous sur WhatsApp" target="_blank" rel="noopener noreferrer">
       <Icon name="wa" size={26} />
-    </button>);
+    </a>);
 
 }
 
