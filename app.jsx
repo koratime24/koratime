@@ -50,16 +50,11 @@ function Nav() {
         </div>
         <div className="nav-links" style={{gap: 20}}>
           <a href="#accueil" className="active">Accueil</a>
-          <a href="#chaines">Chaînes</a>
-          <a href="tv.html">Smart TV</a>
-          <a href="phone.html">Mobile</a>
-          <a href="box.html">Android Box</a>
           <a href="#tarifs">Tarifs</a>
           <a href="#faq">FAQ</a>
         </div>
         <div className="nav-cta">
           <a href="#tarifs" className="btn btn-ghost btn-sm">Connexion</a>
-          <a href="#tarifs" className="btn btn-primary btn-sm">Essai gratuit</a>
         </div>
       </div>
     </nav>);
@@ -188,45 +183,14 @@ function DeviceMockup() {
 
 }
 
-// === TICKER ===
-function LiveTicker() {
-  const matches = [
-  { league: 'Ligue 1', teams: 'PSG vs OM', score: '2-1', min: "72'" },
-  { league: 'Premier League', teams: 'Man City vs Arsenal', score: '1-1', min: "58'" },
-  { league: 'La Liga', teams: 'Real Madrid vs Barça', score: '3-2', min: "84'" },
-  { league: 'Serie A', teams: 'Inter vs Milan', score: '0-0', min: "31'" },
-  { league: 'Bundesliga', teams: 'Bayern vs Dortmund', score: '2-0', min: "67'" },
-  { league: 'Champions League', teams: 'Liverpool vs PSG', score: '1-2', min: "45'" },
-  { league: 'Coupe de France', teams: 'Lyon vs Monaco', score: '1-0', min: "23'" },
-  { league: 'Europa League', teams: 'Marseille vs Roma', score: '2-2', min: "89'" }];
-
-  const all = [...matches, ...matches];
-  return (
-    <div className="ticker">
-      <div className="ticker-label"><span className="dot"></span>EN DIRECT</div>
-      <div className="ticker-track">
-        {all.map((m, i) =>
-        <div key={i} className="tk-match">
-            <span className="league">{m.league}</span>
-            <span className="teams">{m.teams}</span>
-            <span className="score">{m.score}</span>
-            <span className="min">{m.min}</span>
-          </div>
-        )}
-      </div>
-    </div>);
-
-}
-
 // === CATEGORIES ===
 function Categories() {
   const cats = [
-  { id: 'sport', name: 'Sport en direct', count: '+1 200 chaînes · Ligue 1, Champions League, NBA, F1, UFC', icon: 'ball', cls: 'sport' },
-  { id: 'films', name: 'Films', count: '+45 000 titres · VOD 4K', icon: 'film', cls: 'films' },
-  { id: 'series', name: 'Séries', count: '+35 000 épisodes · Multi-saisons', icon: 'series', cls: 'series' },
-  { id: 'live', name: 'Chaînes Live', count: 'TF1, M6, Canal+', icon: 'tv', cls: 'live' },
-  { id: 'kids', name: 'Enfants', count: 'Disney, Gulli', icon: 'kids', cls: 'kids' },
-  { id: 'docs', name: 'Documentaires', count: 'NatGeo, History', icon: 'doc', cls: 'docs' }];
+  { id: 'sport', name: 'Sport en direct', channels: 'beIN Sports · Canal+ Sport · RMC Sport · Eurosport', icon: 'ball', cls: 'sport' },
+  { id: 'films', name: 'Films', channels: 'Netflix · Prime Video · OCS · Disney+', icon: 'film', cls: 'films' },
+  { id: 'series', name: 'Séries', channels: 'HBO · Netflix · Apple TV+ · Canal+', icon: 'series', cls: 'series' },
+  { id: 'kids', name: 'Kids', channels: 'Disney Junior · Gulli · TF1 Kids · Nickelodeon', icon: 'kids', cls: 'kids' },
+  { id: 'docs', name: 'Documentaires', channels: 'NatGeo · Discovery · History · Arte', icon: 'doc', cls: 'docs' }];
 
   return (
     <section id="chaines" className="container">
@@ -244,7 +208,7 @@ function Categories() {
               <div className="cat-meta">
                 <div>
                   <div className="cat-name">{c.name}</div>
-                  <div className="cat-count">{c.count}</div>
+                  <div className="cat-count">{c.channels}</div>
                 </div>
                 <div className="cat-arrow"><Icon name="arrow" size={18} /></div>
               </div>
@@ -558,7 +522,6 @@ function App() {
       <div className="page">
         <Nav />
         <Hero />
-        <LiveTicker />
         <Categories />
         <HowItWorks />
         <Pricing />
