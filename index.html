@@ -1,305 +1,489 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="KoraTime — المجلة العربية لأخبار كرة القدم، تحليلات المباريات، الميركاتو، الدوريات الأوروبية والبطولة المغربية.">
-<meta name="keywords" content="كرة القدم, أخبار الرياضة, دوري الأبطال, البريميرليغ, الليغا, البطولة المغربية, الميركاتو, أشرف حكيمي, المنتخب المغربي">
-<title>KoraTime — مجلة كرة القدم بالعربية</title>
-<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>KoraTime24 — Sports, live et sans filtre</title>
+  <meta name="description" content="Résultats, analyses tactiques et mercato — écrits par des gens qui ont vraiment regardé le match." />
+
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-2MRGQCSE9N"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-2MRGQCSE9N');
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      background:
+        radial-gradient(900px 500px at 80% -5%, rgba(34,211,238,0.10), transparent 60%),
+        radial-gradient(700px 400px at -5% 15%, rgba(59,130,246,0.08), transparent 55%),
+        #05080f;
+      color: #f8fafc;
+      font-family: "Inter", system-ui, sans-serif;
+      font-size: 15px;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+    }
+    h1,h2,h3,h4 { font-family: "Inter", system-ui, sans-serif; font-weight: 700; letter-spacing: -0.02em; margin: 0; }
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+    #root { isolation: isolate; }
+
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.35} }
+
+    .no-scroll::-webkit-scrollbar { display: none; }
+    .no-scroll { scrollbar-width: none; }
+
+    @media (max-width: 1024px) {
+      .hero-grid { grid-template-columns: 1fr !important; }
+      .footer-grid { grid-template-columns: 1fr 1fr !important; }
+      .fixture-odds { display: none !important; }
+    }
+    @media (max-width: 640px) {
+      .nav-links { display: none !important; }
+      .search-bar { display: none !important; }
+      .hero-section { padding: 32px 16px 16px !important; }
+      .hero-h1 { font-size: 34px !important; }
+      .hero-stats { gap: 16px !important; }
+      .articles-section { padding: 32px 16px 16px !important; }
+      .fixtures-section { padding: 16px 16px 40px !important; }
+      .footer-section { padding: 32px 16px 20px !important; }
+      .footer-grid { grid-template-columns: 1fr !important; }
+      .articles-grid { grid-template-columns: 1fr !important; }
+      .fixture-league { display: none !important; }
+      .fixture-alert { display: none !important; }
+      .fixture-row { grid-template-columns: 130px 1fr !important; }
+      .cta-inner { flex-direction: column !important; text-align: center !important; }
+      .banner-inner { flex-direction: column !important; gap: 10px !important; text-align: center !important; }
+      .nav-wrap { padding: 12px 16px !important; }
+      .ticker-wrap { padding: 10px 16px !important; }
+    }
+  </style>
 </head>
 <body>
+<div id="root"></div>
+<script type="text/babel" data-presets="env,react">
+const { useState, useMemo } = React;
 
-<!-- MASTHEAD -->
-<div class="masthead">
-  <div class="masthead-inner">
-    <div class="masthead-date">الخميس · 23 أبريل 2026</div>
-    <div class="masthead-links">
-      <a href="about.html">من نحن</a>
-      <a href="contact.html">اتصل بنا</a>
-    </div>
-  </div>
-</div>
+const C = {
+  bg:   "#05080f",
+  bg1:  "#0b1020",
+  bg2:  "#111827",
+  bg3:  "#1f2937",
+  line: "rgba(255,255,255,0.12)",
+  soft: "rgba(255,255,255,0.06)",
+  ink0: "#f8fafc",
+  ink1: "#cbd5e1",
+  ink2: "#94a3b8",
+  ink3: "#64748b",
+  cyan: "#22d3ee",
+  blue: "#3b82f6",
+  hot:  "#ef4444",
+  win:  "#22c55e",
+};
 
-<!-- HEADER -->
-<header>
-  <div class="header-top">
-    <div class="logo-wrap">
-      <a href="index.html" class="logo">Kora<span class="amp">·</span>Time</a>
-      <div class="logo-tagline">THE ARABIC FOOTBALL JOURNAL</div>
-    </div>
-  </div>
-  <nav>
-    <div class="nav-inner">
-      <ul class="nav-links">
-        <li><a href="index.html" class="active">الرئيسية</a></li>
-        <li><a href="#">دوري الأبطال</a></li>
-        <li><a href="#">البريميرليغ</a></li>
-        <li><a href="#">الليغا</a></li>
-        <li><a href="#">المنتخب المغربي</a></li>
-        <li><a href="#">الميركاتو</a></li>
-        <li><a href="#">تحليلات</a></li>
-      </ul>
-    </div>
-  </nav>
-</header>
-
-<!-- LEAD STORY -->
-<section class="lead-story">
-  <div class="lead-meta-bar">
-    <span class="dot"></span>
-    <span>القصة الرئيسية</span>
-    <span>—</span>
-    <span>دوري أبطال أوروبا</span>
-  </div>
-  <div class="lead-grid">
-    <div class="lead-text">
-      <h1>باريس ضد بايرن: نصف نهائي دوري الأبطال يعِدُ بلحظة تاريخية</h1>
-      <p class="lead-excerpt">
-        تحت أضواء حديقة الأمراء، يلتقي حاملا راية أوروبا. باريس سان جيرمان، حامل اللقب، في مواجهة بايرن ميونخ العائد بقوة بعد إقصائه لريال مدريد في ربع النهائي الأكثر دراماتيكية هذا الموسم. بين أقدام حكيمي، خبرة كين، ومفاجآت لويس دياز — كل التفاصيل قبل موقعة 28 أبريل.
-      </p>
-      <div class="lead-byline">
-        <span class="author-name">KoraTime Desk</span>
-        <span class="sep"></span>
-        <span>23 أبريل 2026</span>
-        <span class="sep"></span>
-        <span>8 دقائق قراءة</span>
+function Img({ label, hue = 210, ratio = "4/3", style }) {
+  return (
+    <div style={{
+      position:"relative", width:"100%", aspectRatio:ratio,
+      borderRadius:14, overflow:"hidden",
+      background:`linear-gradient(135deg,hsl(${hue},40%,16%) 0%,hsl(${hue},50%,23%) 60%,hsl(${(hue+30)%360},55%,28%) 100%)`,
+      ...style
+    }}>
+      <svg width="100%" height="100%" style={{position:"absolute",inset:0}} aria-hidden="true">
+        <defs>
+          <pattern id={`p${hue}`} width="16" height="16" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+            <rect width="16" height="16" fill="transparent"/>
+            <rect width="1" height="16" fill="rgba(255,255,255,0.05)"/>
+          </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill={`url(#p${hue})`}/>
+      </svg>
+      <div style={{position:"absolute",inset:0,background:"linear-gradient(180deg,transparent 50%,rgba(0,0,0,0.5) 100%)"}}/>
+      <div style={{position:"absolute",left:12,bottom:10,fontSize:10,letterSpacing:"0.1em",color:"rgba(255,255,255,0.55)",textTransform:"uppercase",fontFamily:"monospace"}}>
+        IMG · {label}
       </div>
     </div>
-    <a href="psg-vs-bayern-preview.html" class="lead-visual">
-      <span class="emoji-big">🏆</span>
-      <div class="visual-caption">PSG × BAYERN — 28.04.2026</div>
+  );
+}
+
+function Logo() {
+  return (
+    <a href="/" style={{display:"inline-flex",alignItems:"center",gap:10}}>
+      <span style={{
+        width:34,height:34,borderRadius:10,
+        background:`linear-gradient(140deg,${C.cyan},${C.blue})`,
+        display:"grid",placeItems:"center",
+        boxShadow:`0 6px 20px ${C.cyan}44, inset 0 0 0 1px rgba(255,255,255,0.2)`
+      }}>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+          <circle cx="12" cy="12" r="8" stroke="#05080f" strokeWidth="1.5"/>
+          <ellipse cx="12" cy="12" rx="4" ry="8" stroke="#05080f" strokeWidth="1.5"/>
+          <path d="M4 12h16" stroke="#05080f" strokeWidth="1"/>
+        </svg>
+      </span>
+      <span style={{fontWeight:800,fontSize:20,letterSpacing:"-0.02em"}}>
+        Kora<span style={{color:C.cyan}}>Time</span><span style={{color:C.ink3}}>24</span>
+      </span>
     </a>
-  </div>
-</section>
+  );
+}
 
-<!-- ARTICLE GRID -->
-<div class="content-grid">
-  <main>
-
-    <div class="section-head">
-      <div class="section-head-mark"></div>
-      <h2 class="section-head-ar">أبرز المقالات</h2>
-      <div class="section-head-line"></div>
-      <span class="section-head-title">Featured</span>
-    </div>
-
-    <div class="articles-grid">
-
-      <!-- Article 1 -->
-      <a href="bayern-vs-real-madrid.html" class="article-card">
-        <div class="card-image">
-          <div class="card-image-bg red-bg"></div>
-          <div class="card-image-pattern"></div>
-          <div class="card-image-emoji">⚽</div>
-          <span class="card-category">دوري الأبطال</span>
+function FrtvBanner() {
+  return (
+    <div style={{background:`linear-gradient(90deg,${C.bg2} 0%,rgba(34,211,238,0.07) 50%,${C.bg2} 100%)`,borderBottom:`1px solid ${C.cyan}33`}}>
+      <div className="banner-inner" style={{maxWidth:1280,margin:"0 auto",padding:"13px 32px",display:"flex",alignItems:"center",justifyContent:"space-between",gap:14}}>
+        <div style={{display:"flex",alignItems:"center",gap:12,flexWrap:"wrap"}}>
+          <span style={{display:"inline-flex",alignItems:"center",gap:6,padding:"4px 10px",background:`${C.cyan}1a`,border:`1px solid ${C.cyan}44`,borderRadius:999,fontSize:11,fontWeight:700,color:C.cyan,letterSpacing:"0.08em",textTransform:"uppercase"}}>
+            <span style={{width:6,height:6,borderRadius:"50%",background:C.hot,boxShadow:`0 0 8px ${C.hot}`,animation:"pulse 1.6s ease-in-out infinite"}}/>
+            LIVE IPTV
+          </span>
+          <span style={{fontSize:14,color:C.ink1}}>Regardez tous les matchs en direct en HD — sans coupures</span>
         </div>
-        <div class="card-body">
-          <h3 class="card-title">بايرن 4-3 ريال مدريد: كيف أسقط البافاري ملوك أوروبا في ليلة مجنونة؟</h3>
-          <p class="card-excerpt">هدفان قاتلان لدياز وأوليسي يُنهيان حلم ريال مدريد، وإقصاء الأبطال من ربع النهائي للعام الثاني تواليا.</p>
-          <div class="card-meta">
-            <span>22 أبريل 2026</span>
-            <span class="dot">·</span>
-            <span>7 د قراءة</span>
-          </div>
-        </div>
-      </a>
-
-      <!-- Article 2 -->
-      <a href="arsenal-vs-atletico.html" class="article-card">
-        <div class="card-image">
-          <div class="card-image-bg blue-bg"></div>
-          <div class="card-image-pattern"></div>
-          <div class="card-image-emoji">🔥</div>
-          <span class="card-category">نصف النهائي</span>
-        </div>
-        <div class="card-body">
-          <h3 class="card-title">آرسنال × أتلتيكو مدريد: معركة الأسلوبين على بوابة النهائي</h3>
-          <p class="card-excerpt">أرتيتا في مواجهة سيميوني. كرة الاستحواذ ضد الكتلة الدفاعية. قراءة تكتيكية لنصف نهائي أوروبا الآخر.</p>
-          <div class="card-meta">
-            <span>21 أبريل 2026</span>
-            <span class="dot">·</span>
-            <span>6 د قراءة</span>
-          </div>
-        </div>
-      </a>
-
-      <!-- Article 3 -->
-      <a href="morocco-world-cup-2026.html" class="article-card">
-        <div class="card-image">
-          <div class="card-image-bg brass-bg"></div>
-          <div class="card-image-pattern"></div>
-          <div class="card-image-emoji">🇲🇦</div>
-          <span class="card-category">المنتخب الوطني</span>
-        </div>
-        <div class="card-body">
-          <h3 class="card-title">المغرب في مونديال 2026: ماذا ننتظر من أسود الأطلس؟</h3>
-          <p class="card-excerpt">بعد نصف نهائي قطر التاريخي، يدخل المغرب مونديال أمريكا الشمالية بطموح أكبر وتوقعات أثقل.</p>
-          <div class="card-meta">
-            <span>20 أبريل 2026</span>
-            <span class="dot">·</span>
-            <span>9 د قراءة</span>
-          </div>
-        </div>
-      </a>
-
-      <!-- Article 4 -->
-      <a href="achraf-hakimi-200-psg.html" class="article-card">
-        <div class="card-image">
-          <div class="card-image-bg dark-bg"></div>
-          <div class="card-image-pattern"></div>
-          <div class="card-image-emoji">👑</div>
-          <span class="card-category">بورتريه</span>
-        </div>
-        <div class="card-body">
-          <h3 class="card-title">أشرف حكيمي: 200 مباراة مع باريس، ومسيرة أمير مغربي في أوروبا</h3>
-          <p class="card-excerpt">من شوارع مدريد إلى قلب باريس، ومن اختيار قميص الأسود إلى رفع كأس أوروبا. قصة الظهير الذي أعاد تعريف مركزه.</p>
-          <div class="card-meta">
-            <span>19 أبريل 2026</span>
-            <span class="dot">·</span>
-            <span>10 د قراءة</span>
-          </div>
-        </div>
-      </a>
-
-      <!-- Article 5 -->
-      <a href="summer-transfer-market-2026.html" class="article-card">
-        <div class="card-image">
-          <div class="card-image-bg sand-bg"></div>
-          <div class="card-image-pattern"></div>
-          <div class="card-image-emoji">💰</div>
-          <span class="card-category">الميركاتو</span>
-        </div>
-        <div class="card-body">
-          <h3 class="card-title">ميركاتو صيف 2026: أكبر 10 صفقات محتملة تهزّ أوروبا</h3>
-          <p class="card-excerpt">نيمار إلى MLS؟ فيرتز يغادر ليفركوزن؟ من سيتحرّك ومن سيبقى. كل الشائعات الجادة في سوق الانتقالات القادم.</p>
-          <div class="card-meta">
-            <span>18 أبريل 2026</span>
-            <span class="dot">·</span>
-            <span>8 د قراءة</span>
-          </div>
-        </div>
-      </a>
-
-      <!-- Article 6 -->
-      <a href="psg-vs-bayern-preview.html" class="article-card">
-        <div class="card-image">
-          <div class="card-image-bg"></div>
-          <div class="card-image-pattern"></div>
-          <div class="card-image-emoji">🎯</div>
-          <span class="card-category">معاينة المباراة</span>
-        </div>
-        <div class="card-body">
-          <h3 class="card-title">PSG × بايرن: قراءة تكتيكية في موقعة حديقة الأمراء</h3>
-          <p class="card-excerpt">لويس إنريكي ضد كومباني. 3-5-2 أم 4-3-3؟ من سيفرض إيقاع اللقاء؟ تحليل شامل قبل قمة نصف النهائي.</p>
-          <div class="card-meta">
-            <span>23 أبريل 2026</span>
-            <span class="dot">·</span>
-            <span>12 د قراءة</span>
-          </div>
-        </div>
-      </a>
-
-    </div>
-
-  </main>
-
-  <!-- SIDEBAR -->
-  <aside class="sidebar">
-
-    <div class="sidebar-block">
-      <h3 class="sidebar-title">
-        <span>الدوريات</span>
-        <span class="sidebar-title-mark">LEAGUES</span>
-      </h3>
-      <ul class="league-list">
-        <li><span>🏴󠁧󠁢󠁥󠁮󠁧󠁿 الدوري الإنجليزي</span></li>
-        <li><span>🇪🇸 الدوري الإسباني</span></li>
-        <li><span>🇮🇹 الدوري الإيطالي</span></li>
-        <li><span>🇩🇪 الدوري الألماني</span></li>
-        <li><span>🇫🇷 الدوري الفرنسي</span></li>
-        <li><span>🏆 دوري أبطال أوروبا</span></li>
-        <li><span>🇲🇦 البطولة المغربية</span></li>
-      </ul>
-    </div>
-
-    <div class="newsletter-block">
-      <h3>Join the Journal</h3>
-      <p>ملخص أسبوعي لأهم الأخبار والتحليلات مباشرة إلى بريدك</p>
-      <input type="email" class="newsletter-input" placeholder="بريدك الإلكتروني">
-      <button class="newsletter-btn">اشترك الآن</button>
-    </div>
-
-    <div class="sidebar-block">
-      <h3 class="sidebar-title">
-        <span>الأكثر قراءة</span>
-        <span class="sidebar-title-mark">TOP READ</span>
-      </h3>
-      <ul class="most-read">
-        <li>
-          <span class="num">01</span>
-          <span class="text">بايرن يسقط ريال مدريد ويبلغ نصف النهائي</span>
-        </li>
-        <li>
-          <span class="num">02</span>
-          <span class="text">حكيمي يصل لمباراته رقم 200 مع باريس سان جيرمان</span>
-        </li>
-        <li>
-          <span class="num">03</span>
-          <span class="text">المغرب يتأهل رسمياً إلى مونديال 2026</span>
-        </li>
-        <li>
-          <span class="num">04</span>
-          <span class="text">هاري كين يقترب من 50 هدفاً في موسم واحد</span>
-        </li>
-      </ul>
-    </div>
-
-  </aside>
-
-</div>
-
-<!-- FOOTER -->
-<footer>
-  <div class="footer-inner">
-    <div class="footer-grid">
-      <div class="footer-brand">
-        <div class="footer-logo">KoraTime</div>
-        <p>المجلة العربية المستقلة لكرة القدم. تحليل ورأي وقصص من قلب اللعبة — من الدار البيضاء إلى لندن، ومن مدريد إلى ميلانو.</p>
-        <div class="footer-social">
-          <div class="social-btn">𝕏</div>
-          <div class="social-btn">IG</div>
-          <div class="social-btn">FB</div>
-          <div class="social-btn">TT</div>
-        </div>
-      </div>
-      <div class="footer-col">
-        <h4>Sections</h4>
-        <ul class="footer-links">
-          <li><a href="#">دوري الأبطال</a></li>
-          <li><a href="#">الليغا</a></li>
-          <li><a href="#">البريميرليغ</a></li>
-          <li><a href="#">الميركاتو</a></li>
-          <li><a href="#">البطولة المغربية</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <h4>About</h4>
-        <ul class="footer-links">
-          <li><a href="about.html">من نحن</a></li>
-          <li><a href="contact.html">اتصل بنا</a></li>
-          <li><a href="privacy.html">سياسة الخصوصية</a></li>
-          <li><a href="disclosure.html">إفصاح العمولات</a></li>
-        </ul>
+        <a href="frtv.html" style={{display:"inline-flex",alignItems:"center",gap:8,padding:"10px 20px",borderRadius:10,background:`linear-gradient(135deg,${C.cyan},${C.blue})`,color:C.bg,fontWeight:700,fontSize:14,whiteSpace:"nowrap",flexShrink:0,boxShadow:`0 4px 18px ${C.cyan}44`}}>
+          📺 Regarder en direct avec FRTV IPTV
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
       </div>
     </div>
-    <div class="footer-bottom">
-      <div>© 2026 KoraTime — جميع الحقوق محفوظة</div>
-      <div>Made with care for football lovers worldwide ⚽</div>
-    </div>
-  </div>
-</footer>
+  );
+}
 
+function Nav() {
+  const links = ["Accueil","Matches","Classements","Transferts","Vidéos"];
+  return (
+    <header style={{position:"sticky",top:0,zIndex:50,backdropFilter:"blur(20px) saturate(150%)",WebkitBackdropFilter:"blur(20px) saturate(150%)",background:"rgba(5,8,15,0.84)",borderBottom:`1px solid ${C.soft}`}}>
+      <div className="nav-wrap" style={{maxWidth:1280,margin:"0 auto",padding:"14px 32px",display:"flex",alignItems:"center",gap:24}}>
+        <Logo/>
+        <nav className="nav-links" style={{display:"flex",gap:2,marginLeft:10}}>
+          {links.map((it,i) => (
+            <a key={it} href="#" style={{padding:"8px 14px",fontSize:14,fontWeight:500,color:i===0?C.ink0:C.ink2,borderRadius:8,transition:"color .2s,background .2s",display:"flex",alignItems:"center",gap:6}}
+              onMouseEnter={e=>{e.currentTarget.style.color=C.ink0;e.currentTarget.style.background=C.bg2;}}
+              onMouseLeave={e=>{e.currentTarget.style.color=i===0?C.ink0:C.ink2;e.currentTarget.style.background="transparent";}}>
+              {it}
+              {i===0 && <span style={{width:6,height:6,borderRadius:"50%",background:C.hot,boxShadow:`0 0 8px ${C.hot}`,animation:"pulse 1.6s ease-in-out infinite"}}/>}
+            </a>
+          ))}
+        </nav>
+        <div style={{flex:1}}/>
+        <div className="search-bar" style={{display:"flex",alignItems:"center",gap:10,padding:"8px 14px",background:C.bg2,border:`1px solid ${C.soft}`,borderRadius:10,minWidth:210,color:C.ink3,fontSize:13}}>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+          Rechercher…
+          <span style={{marginLeft:"auto",fontSize:11,padding:"2px 6px",border:`1px solid ${C.line}`,borderRadius:5,fontFamily:"monospace"}}>⌘K</span>
+        </div>
+        <a href="frtv.html" style={{padding:"9px 18px",borderRadius:10,background:`linear-gradient(135deg,${C.cyan},${C.blue})`,color:C.bg,fontSize:13,fontWeight:700,boxShadow:`0 4px 16px ${C.cyan}44`,display:"inline-flex",alignItems:"center",gap:6}}>
+          📺 FRTV IPTV
+        </a>
+      </div>
+    </header>
+  );
+}
+
+const SCORES = [
+  {lg:"PL",  t1:"ARS",t2:"MCI",s1:2,s2:1,min:"78'",live:true},
+  {lg:"LL",  t1:"BAR",t2:"RMA",s1:1,s2:1,min:"63'",live:true},
+  {lg:"BPM", t1:"WAC",t2:"RAJ",s1:0,s2:0,min:"MI-T",live:true},
+  {lg:"SA",  t1:"INT",t2:"JUV",s1:0,s2:0,min:"FT"},
+  {lg:"BL",  t1:"BAY",t2:"DOR",s1:3,s2:2,min:"FT"},
+  {lg:"L1",  t1:"PSG",t2:"MAR",s1:2,s2:0,min:"55'",live:true},
+  {lg:"UCL", t1:"ATM",t2:"MIL",s1:"—",s2:"—",min:"20:00"},
+];
+
+function Ticker() {
+  return (
+    <div style={{borderBottom:`1px solid ${C.soft}`,background:"rgba(11,16,32,0.55)"}}>
+      <div className="no-scroll ticker-wrap" style={{maxWidth:1280,margin:"0 auto",padding:"10px 32px",display:"flex",alignItems:"center",gap:10,overflowX:"auto"}}>
+        <span style={{fontSize:10,letterSpacing:"0.12em",color:C.ink3,textTransform:"uppercase",paddingRight:12,borderRight:`1px solid ${C.soft}`,flexShrink:0,fontFamily:"monospace"}}>SCORES</span>
+        {SCORES.map((m,i) => (
+          <div key={i} style={{display:"flex",alignItems:"center",gap:8,padding:"5px 12px",border:`1px solid ${m.live?C.hot+"44":C.soft}`,borderRadius:8,background:m.live?"rgba(239,68,68,0.07)":"transparent",flexShrink:0,fontSize:12}}>
+            <span style={{color:C.ink3,fontSize:10,fontFamily:"monospace"}}>{m.lg}</span>
+            <span style={{fontWeight:600}}>{m.t1} <span style={{color:C.cyan}}>{m.s1}</span></span>
+            <span style={{color:C.ink3}}>·</span>
+            <span style={{fontWeight:600}}><span style={{color:C.cyan}}>{m.s2}</span> {m.t2}</span>
+            <span style={{fontSize:10,color:m.live?C.hot:C.ink3,display:"flex",alignItems:"center",gap:4,fontFamily:"monospace"}}>
+              {m.live && <span style={{width:5,height:5,borderRadius:"50%",background:C.hot,boxShadow:`0 0 6px ${C.hot}`}}/>}
+              {m.min}
+            </span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function Hero() {
+  return (
+    <section className="hero-section" style={{maxWidth:1280,margin:"0 auto",padding:"56px 32px 24px"}}>
+      <div className="hero-grid" style={{display:"grid",gridTemplateColumns:"1.1fr 1fr",gap:48,alignItems:"center"}}>
+        <div>
+          <div style={{display:"inline-flex",alignItems:"center",gap:8,padding:"6px 14px",border:`1px solid ${C.cyan}44`,borderRadius:999,background:`${C.cyan}18`,color:C.cyan,fontSize:12,marginBottom:24}}>
+            <span style={{width:6,height:6,borderRadius:"50%",background:C.cyan,boxShadow:`0 0 8px ${C.cyan}`}}/>
+            <span style={{fontFamily:"monospace",letterSpacing:"0.1em",textTransform:"uppercase"}}>Journée 34 · 27 Avril</span>
+          </div>
+          <h1 className="hero-h1" style={{fontSize:"clamp(36px,5vw,62px)",lineHeight:1.04,fontWeight:800,marginBottom:20}}>
+            Le foot, live<br/>
+            <span style={{background:`linear-gradient(110deg,${C.cyan} 10%,${C.blue} 90%)`,WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent",backgroundClip:"text"}}>
+              et sans filtre.
+            </span>
+          </h1>
+          <p style={{fontSize:17,color:C.ink2,maxWidth:480,marginBottom:32,lineHeight:1.65}}>
+            Résultats, analyses tactiques et mercato — écrits par des gens qui ont vraiment regardé le match.
+          </p>
+          <div style={{display:"flex",gap:12,flexWrap:"wrap"}}>
+            <button style={{padding:"14px 22px",borderRadius:12,background:`linear-gradient(135deg,${C.cyan},${C.blue})`,color:C.bg,fontSize:15,fontWeight:700,display:"inline-flex",alignItems:"center",gap:10,boxShadow:`0 8px 28px ${C.cyan}44`}}>
+              Lire les dernières actus
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </button>
+            <a href="frtv.html" style={{padding:"14px 22px",borderRadius:12,background:"transparent",color:C.ink0,border:`1px solid ${C.line}`,fontSize:15,fontWeight:500,display:"inline-flex",alignItems:"center",gap:10}}>
+              <span style={{width:8,height:8,borderRadius:"50%",background:C.hot,boxShadow:`0 0 10px ${C.hot}`,animation:"pulse 1.6s ease-in-out infinite"}}/>
+              Voir en direct · FRTV IPTV
+            </a>
+          </div>
+          <div className="hero-stats" style={{display:"flex",gap:28,marginTop:40,paddingTop:24,borderTop:`1px solid ${C.soft}`}}>
+            {[["2.4M","lecteurs/jour"],["180+","ligues couvertes"],["⌀ 4 min","au premier but"]].map(([n,l]) => (
+              <div key={l}>
+                <div style={{fontSize:22,fontWeight:700}}>{n}</div>
+                <div style={{fontSize:12,color:C.ink3,textTransform:"uppercase",letterSpacing:"0.08em",marginTop:2}}>{l}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div style={{position:"relative"}}>
+          <div style={{position:"absolute",inset:-40,zIndex:-1,background:`radial-gradient(closest-side,${C.cyan}22,transparent 70%)`,filter:"blur(20px)"}}/>
+          <a href="#" style={{display:"block",background:C.bg1,border:`1px solid ${C.line}`,borderRadius:20,overflow:"hidden",boxShadow:"0 30px 80px rgba(0,0,0,0.5)"}}>
+            <div style={{position:"relative"}}>
+              <Img label="featured · ligue des champions" hue={210} ratio="16/10" style={{borderRadius:0}}/>
+              <div style={{position:"absolute",top:16,left:16,display:"inline-flex",alignItems:"center",gap:6,padding:"6px 10px",background:C.hot,color:"#fff",borderRadius:6,fontSize:11,fontWeight:700,letterSpacing:"0.08em",textTransform:"uppercase"}}>
+                <span style={{width:6,height:6,borderRadius:"50%",background:"#fff"}}/>
+                Breaking
+              </div>
+              <div style={{position:"absolute",bottom:16,right:16,padding:"6px 10px",background:"rgba(5,8,15,0.75)",border:`1px solid ${C.line}`,borderRadius:6,fontSize:11,color:C.ink1,backdropFilter:"blur(8px)",fontFamily:"monospace"}}>22:14 CET</div>
+            </div>
+            <div style={{padding:22}}>
+              <div style={{fontSize:11,color:C.cyan,letterSpacing:"0.08em",textTransform:"uppercase",marginBottom:10,fontFamily:"monospace"}}>UEFA Champions League · Finale</div>
+              <h3 style={{fontSize:22,lineHeight:1.2,marginBottom:10,fontWeight:700}}>
+                L'héroïsme en prolongations : comment un remplaçant de 19 ans a réécrit le script européen de Madrid
+              </h3>
+              <p style={{fontSize:14,color:C.ink2,marginBottom:14}}>
+                Trois minutes sur le terrain, un geste décisif, et un trophée continental. On décortique le changement tactique qui a tout rendu possible.
+              </p>
+              <div style={{display:"flex",alignItems:"center",gap:10,fontSize:12,color:C.ink3}}>
+                <span style={{width:24,height:24,borderRadius:"50%",background:`linear-gradient(135deg,${C.cyan},${C.blue})`}}/>
+                <span style={{color:C.ink1}}>Marco Visentin</span>
+                <span>·</span>
+                <span>6 min de lecture</span>
+                <span style={{flex:1}}/>
+                <span style={{fontFamily:"monospace"}}>→</span>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+const TAGS = ["Tout","Football","Basket","Tennis","F1","Transferts","Opinion"];
+const ARTICLES = [
+  {tag:"Transferts",hue:210,kicker:"Premier League", title:"La reconstruction du milieu de Liverpool est discrètement la plus chère de l'histoire du club",author:"Hannah Owusu", date:"27 avr.",read:"5 min",hot:true},
+  {tag:"Football",  hue:230,kicker:"La Liga",         title:"Pourquoi la ligne défensive du Real Madrid continue de défier la logique et de s'en tirer",  author:"Diego Marín",   date:"27 avr.",read:"7 min"},
+  {tag:"Football",  hue:140,kicker:"Botola Pro",      title:"Le WAC déroule face au Raja dans un derby de Casablanca à sens unique",                       author:"Karim Saidi",   date:"26 avr.",read:"4 min",hot:true},
+  {tag:"Basket",    hue:30, kicker:"NBA Playoffs",    title:"Le banc de Boston remporte une série que personne n'attendait aussi serrée",                   author:"R. Patel",      date:"26 avr.",read:"6 min"},
+  {tag:"F1",        hue:350,kicker:"GP Imola",        title:"Le pari pneus de Red Bull a payé — mais de justesse, et seulement cette fois",                 author:"Léa Vermeer",   date:"25 avr.",read:"8 min"},
+  {tag:"Tennis",    hue:100,kicker:"Madrid Open",     title:"Sinner fait quelque chose sur terre battue dont personne ne nous avait prévenus",              author:"K. Nilsson",    date:"25 avr.",read:"5 min"},
+  {tag:"Opinion",   hue:270,kicker:"Long format",     title:"L'argument du salary cap a été tranché. Pourquoi tout le monde débat encore ?",               author:"Rédaction",     date:"24 avr.",read:"11 min"},
+  {tag:"Football",  hue:200,kicker:"Bundesliga",      title:"La défense du titre de Leverkusen s'effondre au ralenti — voilà où",                          author:"F. Krüger",     date:"24 avr.",read:"6 min"},
+  {tag:"Transferts",hue:320,kicker:"Serie A",         title:"Les prolongations discrètes de l'Inter laissent présager un été très bruyant",                 author:"G. Conti",      date:"23 avr.",read:"4 min"},
+];
+
+function ArticleCard({ a }) {
+  const [hover, setHover] = useState(false);
+  return (
+    <a href="#" onMouseEnter={()=>setHover(true)} onMouseLeave={()=>setHover(false)}
+      style={{display:"flex",flexDirection:"column",background:hover?C.bg2:C.bg1,border:`1px solid ${hover?C.line:C.soft}`,borderRadius:16,overflow:"hidden",transform:hover?"translateY(-3px)":"translateY(0)",transition:"transform .25s ease,background .2s,border-color .2s,box-shadow .25s",boxShadow:hover?"0 18px 50px rgba(0,0,0,0.5)":"none"}}>
+      <div style={{position:"relative",padding:10}}>
+        <Img label={a.kicker.toLowerCase()} hue={a.hue} ratio="4/3"/>
+        <div style={{position:"absolute",top:18,left:18,padding:"5px 9px",background:"rgba(5,8,15,0.82)",border:`1px solid ${C.line}`,borderRadius:6,fontSize:11,fontWeight:600,color:C.ink0,backdropFilter:"blur(8px)"}}>{a.tag}</div>
+        {a.hot && (
+          <div style={{position:"absolute",top:18,right:18,display:"inline-flex",alignItems:"center",gap:5,padding:"5px 9px",background:C.hot,color:"#fff",borderRadius:6,fontSize:10,fontWeight:700,letterSpacing:"0.08em",textTransform:"uppercase"}}>
+            <span style={{width:5,height:5,borderRadius:"50%",background:"#fff"}}/>
+            Tendance
+          </div>
+        )}
+      </div>
+      <div style={{padding:"8px 18px 20px",display:"flex",flexDirection:"column",flex:1}}>
+        <div style={{fontSize:11,letterSpacing:"0.08em",textTransform:"uppercase",color:C.cyan,marginBottom:10,fontFamily:"monospace"}}>{a.kicker}</div>
+        <h3 style={{fontSize:17,lineHeight:1.3,marginBottom:14,color:C.ink0,fontWeight:600}}>{a.title}</h3>
+        <div style={{marginTop:"auto",display:"flex",alignItems:"center",gap:10,fontSize:12,color:C.ink3,paddingTop:12,borderTop:`1px solid ${C.soft}`}}>
+          <span style={{width:22,height:22,borderRadius:"50%",background:`linear-gradient(135deg,hsl(${a.hue},60%,44%),hsl(${(a.hue+60)%360},60%,58%))`}}/>
+          <span style={{color:C.ink1,fontWeight:500}}>{a.author}</span>
+          <span>·</span>
+          <span>{a.date}</span>
+          <span style={{flex:1}}/>
+          <span style={{display:"inline-flex",alignItems:"center",gap:4,padding:"3px 7px",border:`1px solid ${C.soft}`,borderRadius:5,fontSize:10,fontFamily:"monospace"}}>
+            <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+            {a.read}
+          </span>
+        </div>
+      </div>
+    </a>
+  );
+}
+
+function Articles() {
+  const [active, setActive] = useState("Tout");
+  const filtered = useMemo(() => active==="Tout" ? ARTICLES : ARTICLES.filter(a=>a.tag===active), [active]);
+  return (
+    <section className="articles-section" style={{maxWidth:1280,margin:"0 auto",padding:"56px 32px 24px"}}>
+      <div style={{display:"flex",alignItems:"flex-end",justifyContent:"space-between",marginBottom:28,gap:24,flexWrap:"wrap"}}>
+        <div>
+          <div style={{fontSize:11,letterSpacing:"0.12em",textTransform:"uppercase",color:C.ink3,marginBottom:10,fontFamily:"monospace"}}>§ 02 — Newsroom</div>
+          <h2 style={{fontSize:36,letterSpacing:"-0.02em"}}>Actus du jour</h2>
+        </div>
+        <div style={{display:"flex",gap:6,flexWrap:"wrap"}}>
+          {TAGS.map(t => (
+            <button key={t} onClick={()=>setActive(t)} style={{padding:"8px 14px",borderRadius:999,fontSize:13,fontWeight:500,background:active===t?C.ink0:"transparent",color:active===t?C.bg:C.ink2,border:`1px solid ${active===t?C.ink0:C.soft}`,transition:"all .18s"}}
+              onMouseEnter={e=>{if(active!==t){e.currentTarget.style.borderColor=C.line;e.currentTarget.style.color=C.ink1;}}}
+              onMouseLeave={e=>{if(active!==t){e.currentTarget.style.borderColor=C.soft;e.currentTarget.style.color=C.ink2;}}}>
+              {t}
+            </button>
+          ))}
+        </div>
+      </div>
+      <div className="articles-grid" style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(300px,1fr))",gap:20}}>
+        {filtered.map((a,i) => <ArticleCard key={i} a={a}/>)}
+        {filtered.length===0 && (
+          <div style={{gridColumn:"1/-1",padding:60,textAlign:"center",color:C.ink3,border:`1px dashed ${C.line}`,borderRadius:14}}>
+            Pas d'article sous "{active}" pour l'instant — revenez bientôt.
+          </div>
+        )}
+      </div>
+      <div style={{display:"flex",justifyContent:"center",marginTop:36}}>
+        <button style={{padding:"12px 24px",borderRadius:10,border:`1px solid ${C.line}`,background:C.bg1,fontSize:14,fontWeight:500,color:C.ink1,display:"inline-flex",alignItems:"center",gap:10}}>
+          Charger plus d'articles
+          <span style={{fontSize:11,color:C.ink3,fontFamily:"monospace"}}>+ 24 articles</span>
+        </button>
+      </div>
+    </section>
+  );
+}
+
+function Fixtures() {
+  const list = [
+    {time:"Aujourd'hui · 18:30",league:"Premier League",h:"Tottenham",      a:"Aston Villa",  odds:"1.85 / 3.40 / 4.20"},
+    {time:"Aujourd'hui · 20:00",league:"Botola Pro",    h:"Raja CA",        a:"FUS Rabat",    odds:"2.10 / 3.20 / 3.60"},
+    {time:"Demain · 20:45",     league:"Serie A",       h:"Napoli",         a:"Roma",         odds:"2.10 / 3.30 / 3.50"},
+    {time:"Demain · 21:00",     league:"La Liga",       h:"Atlético Madrid",a:"Séville",      odds:"1.55 / 4.00 / 6.50"},
+  ];
+  return (
+    <section className="fixtures-section" style={{maxWidth:1280,margin:"0 auto",padding:"32px 32px 56px"}}>
+      <div style={{background:C.bg1,border:`1px solid ${C.soft}`,borderRadius:18,overflow:"hidden"}}>
+        <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",padding:"18px 22px",borderBottom:`1px solid ${C.soft}`,background:"rgba(11,16,32,0.5)"}}>
+          <div style={{display:"flex",alignItems:"center",gap:12}}>
+            <span style={{fontSize:11,letterSpacing:"0.12em",textTransform:"uppercase",color:C.ink3,fontFamily:"monospace"}}>§ 03</span>
+            <h3 style={{fontSize:17,fontWeight:600}}>Prochains matchs</h3>
+          </div>
+          <a href="#" style={{fontSize:13,color:C.cyan,display:"inline-flex",alignItems:"center",gap:6}}>
+            Programme complet <span style={{fontFamily:"monospace"}}>→</span>
+          </a>
+        </div>
+        {list.map((f,i) => (
+          <div key={i} className="fixture-row" style={{display:"grid",gridTemplateColumns:"180px 130px 1fr 130px 100px",alignItems:"center",gap:14,padding:"16px 22px",borderBottom:i<list.length-1?`1px solid ${C.soft}`:"none",fontSize:14}}>
+            <div style={{color:C.ink2,fontSize:12,fontFamily:"monospace"}}>{f.time}</div>
+            <div className="fixture-league" style={{color:C.ink3,fontSize:12}}>{f.league}</div>
+            <div style={{display:"flex",alignItems:"center",gap:10}}>
+              <span style={{width:16,height:16,borderRadius:4,background:`linear-gradient(135deg,hsl(${i*70},60%,38%),hsl(${(i*70+90)%360},60%,52%))`}}/>
+              <span style={{fontWeight:600}}>{f.h}</span>
+              <span style={{color:C.ink3}}>–</span>
+              <span style={{fontWeight:600}}>{f.a}</span>
+            </div>
+            <div className="fixture-odds" style={{fontSize:12,color:C.ink2,fontFamily:"monospace"}}>{f.odds}</div>
+            <button className="fixture-alert" style={{justifySelf:"end",padding:"6px 12px",borderRadius:7,border:`1px solid ${C.line}`,fontSize:12,color:C.ink1,background:"transparent"}}>Alerter</button>
+          </div>
+        ))}
+      </div>
+
+      <a href="frtv.html" className="cta-inner" style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginTop:16,padding:"20px 24px",borderRadius:16,background:`linear-gradient(90deg,${C.bg1} 0%,rgba(34,211,238,0.05) 100%)`,border:`1px solid ${C.cyan}33`,gap:16,flexWrap:"wrap"}}>
+        <div style={{display:"flex",alignItems:"center",gap:14}}>
+          <div style={{width:46,height:46,borderRadius:12,background:`linear-gradient(135deg,${C.cyan},${C.blue})`,display:"grid",placeItems:"center",flexShrink:0,fontSize:22}}>📺</div>
+          <div>
+            <div style={{fontWeight:700,fontSize:15}}>Regardez tous ces matchs en direct</div>
+            <div style={{fontSize:13,color:C.ink2,marginTop:2}}>FRTV IPTV — accès immédiat à 10 000+ chaînes en HD</div>
+          </div>
+        </div>
+        <div style={{display:"inline-flex",alignItems:"center",gap:8,padding:"11px 22px",borderRadius:10,background:`linear-gradient(135deg,${C.cyan},${C.blue})`,color:C.bg,fontWeight:700,fontSize:14,flexShrink:0}}>
+          Voir les offres FRTV IPTV →
+        </div>
+      </a>
+    </section>
+  );
+}
+
+function Footer() {
+  return (
+    <footer style={{borderTop:`1px solid ${C.soft}`,marginTop:32,background:"rgba(5,8,15,0.96)"}}>
+      <div className="footer-grid footer-section" style={{maxWidth:1280,margin:"0 auto",padding:"48px 32px 28px",display:"grid",gridTemplateColumns:"1.5fr repeat(4,1fr)",gap:32}}>
+        <div>
+          <Logo/>
+          <p style={{fontSize:13,color:C.ink3,marginTop:14,maxWidth:280,lineHeight:1.65}}>
+            Journalisme sportif indépendant. Pas d'autoplay. Juste le jeu.
+          </p>
+          <a href="frtv.html" style={{display:"inline-flex",alignItems:"center",gap:8,marginTop:18,padding:"10px 16px",borderRadius:10,background:`${C.cyan}18`,border:`1px solid ${C.cyan}44`,color:C.cyan,fontSize:13,fontWeight:600}}>
+            📺 FRTV IPTV — Regarder en direct →
+          </a>
+        </div>
+        {[
+          ["Rubriques", ["Football","Basket","Tennis","Formule 1","Boxe"]],
+          ["Outils",    ["Scores live","Classements","Calendrier","Statistiques"]],
+          ["À propos",  ["Qui sommes-nous","Rédaction","Contact","Presse"]],
+          ["Légal",     ["CGU","Confidentialité","Cookies","Droit d'auteur"]],
+        ].map(([title,items]) => (
+          <div key={title}>
+            <div style={{fontSize:11,letterSpacing:"0.12em",textTransform:"uppercase",color:C.ink3,marginBottom:14,fontFamily:"monospace"}}>{title}</div>
+            <ul style={{listStyle:"none",padding:0,margin:0,display:"flex",flexDirection:"column",gap:8}}>
+              {items.map(item => <li key={item}><a href="#" style={{fontSize:13,color:C.ink1}}>{item}</a></li>)}
+            </ul>
+          </div>
+        ))}
+      </div>
+      <div style={{maxWidth:1280,margin:"0 auto",padding:"20px 32px",borderTop:`1px solid ${C.soft}`,display:"flex",justifyContent:"space-between",flexWrap:"wrap",gap:12,fontSize:12,color:C.ink3}}>
+        <span>© 2026 KoraTime24 Media</span>
+        <span style={{fontFamily:"monospace"}}>fait avec passion pour le sport</span>
+      </div>
+    </footer>
+  );
+}
+
+function App() {
+  return (
+    <>
+      <FrtvBanner/>
+      <Nav/>
+      <Ticker/>
+      <Hero/>
+      <Articles/>
+      <Fixtures/>
+      <Footer/>
+    </>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App/>);
+</script>
 </body>
 </html>
